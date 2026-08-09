@@ -1,0 +1,102 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/cellarity-content-openapi.yml + live probes of https://cellarity.com/wp-json/
+summary: >-
+  Cross-cutting standards conformance for the cellarity.com WordPress REST content API. Cellarity
+  publishes no compliance claims, no certifications and no trust center, so nothing here is a
+  provider assertion — every entry is derived from the spec or from an observed response. No
+  `Compliance` pointer is emitted: Cellarity publishes no compliance program to point at.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    openapi/cellarity-content-openapi.yml is a valid OpenAPI 3.1.0 document. DERIVED by API
+    Evangelist from the route descriptor — Cellarity publishes no OpenAPI itself
+    (x-provider-published: false).
+  provider_published: false
+- id: rest
+  conforms: true
+  evidence: >-
+    Resource-oriented paths, correct method semantics, JSON representations, and standard status
+    codes on all 167 operations.
+- id: hal-style-hypermedia
+  conforms: partial
+  evidence: >-
+    Every object carries a `_links` object with self/collection/about/curies relations and
+    supports `_embed` inlining. This is WordPress's own HAL-flavored variant, not strict
+    application/hal+json — the content type is application/json.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use the WordPress envelope {code,message,data{status}} on application/json, not
+    application/problem+json. Observed live on rest_no_route, rest_post_invalid_id,
+    rest_invalid_param and rest_forbidden.
+- id: rfc7617-http-basic
+  conforms: true
+  evidence: >-
+    Write operations authenticate with WordPress Application Passwords over HTTP Basic;
+    the authorization endpoint is advertised at /wp-json/ under
+    authentication.application-passwords.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme in the spec; /.well-known/oauth-authorization-server returns 404.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on cellarity.com.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returns 404.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header observed on any response.
+- id: rfc5988-web-linking
+  conforms: true
+  evidence: Paginated collections emit RFC 5988 Link headers with rel="next"/"prev".
+- id: pagination
+  conforms: true
+  evidence: >-
+    page/per_page with X-WP-Total and X-WP-TotalPages response headers; per_page bounded 1..100
+    and enforced (400 rest_invalid_param observed above 100).
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or equivalent anywhere in the 287-route descriptor. Retried writes
+    duplicate.
+- id: json-api
+  conforms: false
+  evidence: Not a JSON:API implementation — no data/attributes/relationships envelope.
+- id: odata
+  conforms: false
+- id: fhir-r4
+  conforms: false
+  evidence: >-
+    Checked because Cellarity is a clinical-stage biotech. No FHIR resource shapes, no
+    /metadata CapabilityStatement, no clinical data surface of any kind — this is a marketing CMS.
+- id: hl7-v2
+  conforms: false
+- id: scim2
+  conforms: false
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming or webhook surface exists. Not penalized — there is nothing to describe.
+- id: mcp
+  conforms: false
+  evidence: >-
+    No MCP namespace in the route descriptor. The `wp-abilities/v1` registry is present but
+    returns 401 rest_forbidden anonymously, and no MCP adapter endpoint is registered.
+regulatory_context:
+  note: >-
+    Cellarity is a clinical-stage pharmaceutical company, so HIPAA/GxP/21 CFR Part 11 regimes are
+    plausibly in scope for its INTERNAL systems. None of that touches this artifact: the only
+    surface catalogued here is a public marketing CMS holding press releases, staff bios and a
+    pipeline chart. No patient, clinical or regulated data is exposed by any of the 167 operations.
+  certifications_published: []
+  trust_center: null
+  trust_center_probe:
+  - url: https://trust.cellarity.com/
+    status: 000
+  - url: https://cellarity.com/security/
+    status: 404

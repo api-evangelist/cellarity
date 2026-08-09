@@ -1,0 +1,184 @@
+generated: '2026-08-09'
+method: searched
+source: live responses captured from https://cellarity.com/wp-json/wp/v2 on 2026-08-09
+summary: >-
+  Real request/response captures from the cellarity.com content API. Every payload below was
+  returned by the live endpoint anonymously on the date above and is reproduced verbatim (trimmed
+  with the _fields parameter where noted, never edited). No example is synthetic.
+api: openapi/cellarity-content-openapi.yml
+base_url: https://cellarity.com/wp-json/wp/v2
+authentication: none required for any example here
+examples:
+- name: List the newsroom
+  operationId: listNewsItems
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/news_item?per_page=1&_fields=id,date,slug,link,title,article-type
+  response:
+    status: 200
+    headers:
+      X-WP-Total: '48'
+      X-WP-TotalPages: '48'
+    body:
+    - id: 1561
+      date: '2026-01-08T08:00:38'
+      slug: cellarity-provides-strategic-priorities-and-outlook-for-2026
+      link: https://cellarity.com/news_item/cellarity-provides-strategic-priorities-and-outlook-for-2026/
+      title:
+        rendered: Cellarity Provides Strategic Priorities and Outlook for 2026
+      article-type:
+      - 10
+  notes: >-
+    article-type 10 is the `press` term. Drop _fields to get content.rendered and
+    excerpt.rendered as well.
+- name: List pipeline programs
+  operationId: listPipelineItems
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/pipeline-item?per_page=1&_fields=id,slug,link,title,pipeline-category
+  response:
+    status: 200
+    headers:
+      X-WP-Total: '6'
+    body:
+    - id: 1414
+      slug: cly-124-a-first-in-class-globin-switching-oral-medicine-for-the-treatment-of-sickle-cell-disease
+      link: https://cellarity.com/pipeline-item/cly-124-a-first-in-class-globin-switching-oral-medicine-for-the-treatment-of-sickle-cell-disease/
+      title:
+        rendered: 'CLY-124: A First-in-Class Globin-Switching Oral Medicine for the Treatment of Sickle Cell Disease'
+      pipeline-category:
+      - 22
+- name: List team members
+  operationId: listTeamMembers
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/team-member?per_page=1&_fields=id,slug,link,title,team-category
+  response:
+    status: 200
+    headers:
+      X-WP-Total: '19'
+    body:
+    - id: 1573
+      slug: ornella-barrandon
+      link: https://cellarity.com/team-member/ornella-barrandon/
+      title:
+        rendered: Ornella Barrandon
+      team-category:
+      - 16
+  notes: team-category 16 is `management`; 15 is `board`; 14 is `founders`.
+- name: Read the pipeline taxonomy
+  operationId: listPipelineCategories
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/pipeline-category?per_page=20&_fields=id,name,slug,count
+  response:
+    status: 200
+    body:
+    - {id: 23, slug: pipeline-chart, name: Pipeline Chart, count: 5}
+    - {id: 21, slug: show-popup, name: Show Popup, count: 1}
+    - {id: 22, slug: the-details, name: The Details, count: 1}
+- name: Cross-type site search
+  operationId: search
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/search?search=sickle&per_page=2
+  response:
+    status: 200
+    headers:
+      X-WP-Total: '8'
+    body:
+    - id: 1547
+      title: Cellarity Presents on Cell State-Correcting Pipeline Programs for Sickle Cell Disease and Myelofibrosis at 2025 American Society of Hematology Annual Meeting
+      url: https://cellarity.com/news_item/cellarity-presents-on-cell-state-correcting-pipeline-programs-for-sickle-cell-disease-and-myelofibrosis-at-2025-american-society-of-hematology-annual-meeting/
+      type: post
+      subtype: news_item
+  notes: >-
+    Returns a thin {id,title,url,type,subtype} shape plus _links.self pointing at the full object.
+    Follow that link to read the record.
+- name: Route discovery
+  operationId: getRouteIndex
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/
+  response:
+    status: 200
+    body_excerpt:
+      name: Cellarity
+      description: A unique approach to transformative drug discovery.
+      url: https://cellarity.com
+      namespaces: [oembed/1.0, wpe/cache-plugin/v1, wpe_sign_on_plugin/v1, da/v1, real-custom-post-order/v1,
+        real-utils/v1, yoast/v1, duplicate-post/v1, divi/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1,
+        wp-abilities/v1]
+      authentication:
+        application-passwords:
+          endpoints:
+            authorization: https://cellarity.com/wp-admin/authorize-application.php
+  notes: >-
+    287 routes with full per-route args. Saved verbatim in this repo at
+    openapi/_source/cellarity-wp-json-root.json — this is the contract of record.
+error_examples:
+- name: Unknown route
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/nope
+  response:
+    status: 404
+    body:
+      code: rest_no_route
+      message: No route was found matching the URL and request method.
+      data:
+        status: 404
+- name: Nonexistent ID
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/news_item/999999
+  response:
+    status: 404
+    body:
+      code: rest_post_invalid_id
+      message: Invalid post ID.
+      data:
+        status: 404
+- name: per_page above the maximum
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/news_item?per_page=500
+  response:
+    status: 400
+    body:
+      code: rest_invalid_param
+      message: 'Invalid parameter(s): per_page'
+      data:
+        status: 400
+        params:
+          per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+        details:
+          per_page:
+            code: rest_out_of_bounds
+            message: per_page must be between 1 (inclusive) and 100 (inclusive)
+            data: null
+- name: Authenticated-only route, called anonymously
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp/v2/settings
+  response:
+    status: 401
+    body:
+      code: rest_forbidden
+      message: Sorry, you are not allowed to do that.
+      data:
+        status: 401
+- name: WordPress abilities registry, called anonymously
+  request:
+    method: GET
+    url: https://cellarity.com/wp-json/wp-abilities/v1/abilities
+  response:
+    status: 401
+    body:
+      code: rest_forbidden
+      message: Sorry, you are not allowed to do that.
+      data:
+        status: 401
+  notes: >-
+    Worth recording: the wp-abilities registry is the surface a WordPress MCP adapter would expose.
+    It is present but gated, and no MCP namespace is registered, so no MCP server exists here.

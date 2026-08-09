@@ -1,0 +1,194 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/cellarity-content-openapi.yml + live object/taxonomy inspection of https://cellarity.com/wp-json/wp/v2
+summary: >-
+  Entity-relationship graph of the cellarity.com WordPress content model. Derived from the route
+  descriptor's registered post types and taxonomies, then confirmed against live objects — every
+  relationship below was verified by observing the linking field on a real record, not assumed
+  from WordPress defaults. The model is a small content graph: five populated editorial entities
+  (news items, pipeline programs, team members, event speakers, case studies), two video types,
+  and the taxonomies that classify them.
+identifiers:
+  scheme: integer
+  detail: >-
+    All objects key on a site-unique integer `id` drawn from a single wp_posts sequence shared
+    across post types, plus a separate sequence for taxonomy terms. IDs are NOT namespaced by
+    type: /wp/v2/news_item/1414 returns 404 rest_post_invalid_id because 1414 is a pipeline-item.
+    A `slug` is unique within a type and is the stable, human-readable key.
+entities:
+- name: NewsItem
+  post_type: news_item
+  collection: /wp/v2/news_item
+  operations: [listNewsItems, getNewsItem]
+  count: 48
+  description: Corporate newsroom — press releases, publications, presentations and external coverage.
+  key_fields: [id, slug, date, modified, link, title.rendered, content.rendered, excerpt.rendered, featured_media, article-type]
+  relationships:
+  - type: has_many
+    target: ArticleType
+    via: article-type
+    description: Taxonomy term IDs classifying the item. Observed on id 1561 -> [10] (press).
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+    description: Integer media ID, 0 when unset.
+  - type: belongs_to
+    target: User
+    via: author
+- name: PipelineItem
+  post_type: pipeline-item
+  collection: /wp/v2/pipeline-item
+  operations: [listPipelineItems, getPipelineItem]
+  count: 6
+  description: >-
+    Drug-development programs and the pipeline chart rows that render them — CLY-124 (sickle cell),
+    Myelofibrosis, Exploratory Hematology, MASH, In Development.
+  key_fields: [id, slug, link, title.rendered, content.rendered, pipeline-category]
+  relationships:
+  - type: has_many
+    target: PipelineCategory
+    via: pipeline-category
+    description: >-
+      Observed on id 1414 -> [22] (the-details) and id 1349 -> [23, 21] (pipeline-chart +
+      show-popup). The taxonomy is used for presentation role, not therapeutic area.
+- name: TeamMember
+  post_type: team-member
+  collection: /wp/v2/team-member
+  operations: [listTeamMembers, getTeamMember]
+  count: 19
+  description: Leadership, founders and board profiles.
+  key_fields: [id, slug, link, title.rendered, content.rendered, featured_media, team-category]
+  relationships:
+  - type: has_many
+    target: TeamCategory
+    via: team-category
+    description: Observed on id 1573 -> [16] (management).
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+- name: EventSpeaker
+  post_type: event-speaker
+  collection: /wp/v2/event-speaker
+  operations: [listEventSpeakers, getEventSpeaker]
+  count: 11
+  description: Speakers featured on the symposium/events pages.
+  key_fields: [id, slug, link, title.rendered, content.rendered, featured_media]
+  relationships:
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+- name: CaseStudy
+  post_type: case-study
+  collection: /wp/v2/case-study
+  operations: [listCaseStudies, getCaseStudy]
+  count: 1
+  key_fields: [id, slug, link, title.rendered, content.rendered, case-study-category]
+  relationships:
+  - type: has_many
+    target: CaseStudyCategory
+    via: case-study-category
+- name: TeamVideo
+  post_type: team-video
+  collection: /wp/v2/team-video
+  operations: [listTeamVideos, getTeamVideo]
+  count: 4
+- name: MindsetVideo
+  post_type: mindset-video
+  collection: /wp/v2/mindset-video
+  operations: [listMindsetVideos, getMindsetVideo]
+  count: 3
+- name: Page
+  post_type: page
+  collection: /wp/v2/pages
+  operations: [listPages, getPage]
+  count: 11
+  description: >-
+    Marketing pages — home, platform, pipeline, about, life-at-cellarity, news-events, symposium,
+    cly-124-sickle-cell, contact, privacy-policy, terms-conditions.
+  relationships:
+  - type: belongs_to
+    target: Page
+    via: parent
+    description: Pages are hierarchical.
+- name: MediaItem
+  post_type: attachment
+  collection: /wp/v2/media
+  operations: [listMediaItems, getMediaItem]
+  count: 207
+  key_fields: [id, slug, source_url, mime_type, media_type, media_details, alt_text, post]
+  relationships:
+  - type: belongs_to
+    target: NewsItem
+    via: post
+    description: The object this attachment was uploaded to; null for library-only assets.
+- name: User
+  collection: /wp/v2/users
+  operations: [listUsers, getUser, getCurrentUser]
+  count: 3
+  description: Authoring accounts exposed anonymously (name, slug, description, avatar) — no emails.
+- name: Post
+  post_type: post
+  collection: /wp/v2/posts
+  count: 0
+  description: Core WordPress blog. Registered but never used — Cellarity runs no blog.
+- name: Project
+  post_type: project
+  collection: /wp/v2/project
+  count: 0
+  description: Theme-supplied post type, never populated.
+taxonomies:
+- name: ArticleType
+  taxonomy: article-type
+  collection: /wp/v2/article-type
+  applies_to: [news_item]
+  terms:
+  - {slug: news, name: News, count: 29}
+  - {slug: press, name: Press, count: 14}
+  - {slug: ext, name: Ext, count: 11}
+  - {slug: publication, name: Publication, count: 2}
+  - {slug: presentation, name: Presentation, count: 2}
+  - {slug: media, name: Media, count: 1}
+  note: >-
+    Term counts total 59 against 48 news items, so items carry more than one term. This is the
+    most useful filter on the whole API — it separates original press releases from external
+    coverage and from peer-reviewed publications.
+- name: PipelineCategory
+  taxonomy: pipeline-category
+  collection: /wp/v2/pipeline-category
+  applies_to: [pipeline-item]
+  terms:
+  - {slug: pipeline-chart, name: Pipeline Chart, count: 5}
+  - {slug: the-details, name: The Details, count: 1}
+  - {slug: show-popup, name: Show Popup, count: 1}
+- name: TeamCategory
+  taxonomy: team-category
+  collection: /wp/v2/team-category
+  applies_to: [team-member]
+  terms:
+  - {slug: management, name: Management, count: 10}
+  - {slug: board, name: Board, count: 7}
+  - {slug: founders, name: Founders, count: 4}
+  note: Counts total 21 against 19 members — two people are both founders and management or board.
+- name: CaseStudyCategory
+  taxonomy: case-study-category
+  collection: /wp/v2/case-study-category
+  applies_to: [case-study]
+- name: Category
+  taxonomy: category
+  collection: /wp/v2/categories
+  count: 3
+- name: Tag
+  taxonomy: post_tag
+  collection: /wp/v2/tags
+  count: 0
+traversal:
+  hypermedia: >-
+    Every object embeds `_links` with self, collection, about (the type descriptor at
+    /wp/v2/types/{type}), wp:featuredmedia, wp:attachment and wp:term relations. `?_embed=1`
+    inlines featured media, author and terms in one round trip, which is the efficient way to walk
+    this graph.
+  cross_type_search: >-
+    /wp/v2/search returns {id, title, url, type, subtype} across every public type — the only
+    operation that spans entities. Observed subtype values include news_item.
+render: null
+render_note: No subway/ visual exists for this repo.

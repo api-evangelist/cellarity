@@ -1,0 +1,114 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/cellarity-content-openapi.yml + live error responses captured from https://cellarity.com/wp-json/wp/v2
+format: wordpress-rest
+rfc9457: false
+summary: >-
+  The cellarity.com content API returns the WordPress REST error envelope, not RFC 9457
+  application/problem+json. Errors are served as application/json with a machine-readable `code`,
+  a human `message`, and a `data` object carrying the HTTP status plus per-parameter validation
+  detail. Cellarity publishes no error reference, so every entry below was either derived from the
+  OpenAPI responses or captured live from the endpoint; the four marked `observed: true` are
+  verbatim captures.
+envelope:
+  content_type: application/json
+  schema: openapi/cellarity-content-openapi.yml#/components/schemas/WpError
+  fields:
+    code: Machine-readable error slug — this is the field to branch on, not the HTTP status.
+    message: Human-readable, localized to the site language.
+    data.status: HTTP status code, duplicated inside the body.
+    data.params: Per-parameter validation messages. Present only on rest_invalid_param.
+    data.details: Per-parameter structured detail (code/message/data). Present only on rest_invalid_param.
+problems:
+- code: rest_no_route
+  status: 404
+  title: No route matched
+  message: No route was found matching the URL and request method.
+  observed: true
+  observed_at: https://cellarity.com/wp-json/wp/v2/nope
+  remediation: >-
+    Check the path and method against the route descriptor at https://cellarity.com/wp-json/.
+    A valid path with an unsupported method returns this too, not 405.
+- code: rest_post_invalid_id
+  status: 404
+  title: Invalid post ID
+  message: Invalid post ID.
+  observed: true
+  observed_at: https://cellarity.com/wp-json/wp/v2/news_item/999999
+  applies_to:
+  - getNewsItem
+  - getPipelineItem
+  - getTeamMember
+  - getEventSpeaker
+  - getCaseStudy
+  - getPage
+  - getPost
+  - getMediaItem
+  remediation: >-
+    The numeric ID does not exist, is not published, or belongs to another post type. IDs are not
+    portable across types — /news_item/{id} will 404 for a valid pipeline-item ID.
+- code: rest_invalid_param
+  status: 400
+  title: Invalid parameter
+  message: 'Invalid parameter(s): per_page'
+  observed: true
+  observed_at: https://cellarity.com/wp-json/wp/v2/news_item?per_page=500
+  detail_example:
+    data:
+      status: 400
+      params:
+        per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+      details:
+        per_page:
+          code: rest_out_of_bounds
+          message: per_page must be between 1 (inclusive) and 100 (inclusive)
+  remediation: >-
+    Read data.params for the offending parameter. Enum, minimum/maximum and type constraints are
+    all published per-parameter in the route descriptor, so this class is fully avoidable.
+- code: rest_forbidden
+  status: 401
+  title: Not allowed
+  message: Sorry, you are not allowed to do that.
+  observed: true
+  observed_at: https://cellarity.com/wp-json/wp/v2/settings
+  also_observed_at: https://cellarity.com/wp-json/wp-abilities/v1/abilities
+  remediation: >-
+    The route requires authentication. Supply a WordPress Application Password over HTTP Basic.
+    Note WordPress returns 401 with the code `rest_forbidden` here rather than
+    `rest_not_logged_in`; branch on data.status, not on the code alone.
+- code: rest_cannot_create
+  status: 403
+  title: Not permitted to create
+  message: Sorry, you are not allowed to create posts as this user.
+  observed: false
+  source: derived from OpenAPI write operations that declare the applicationPassword scheme
+  remediation: Authenticated but under-privileged. The credential lacks the capability for this post type.
+- code: rest_cannot_edit
+  status: 403
+  title: Not permitted to edit
+  message: Sorry, you are not allowed to edit this post.
+  observed: false
+  source: derived from OpenAPI update/replace operations
+- code: rest_cannot_delete
+  status: 403
+  title: Not permitted to delete
+  message: Sorry, you are not allowed to delete this post.
+  observed: false
+  source: derived from OpenAPI delete operations
+- code: rest_forbidden_context
+  status: 403
+  title: Context not permitted
+  message: Sorry, you are not allowed to edit posts in this post type.
+  observed: false
+  source: derived — returned when context=edit is requested anonymously
+  remediation: >-
+    context=edit exposes raw (unrendered) fields and always requires authentication. Anonymous
+    clients must use context=view (the default) or context=embed.
+notes:
+- >-
+  There is no 429 in this catalog because no rate-limit response was ever observed and none is
+  documented. That is an absence of evidence, not evidence of no limit — see the rate_limiting
+  block in conventions/cellarity-conventions.yml.
+- >-
+  Every error above is served on HTTP status codes that match data.status; no soft-200 error
+  responses were observed on any probe.

@@ -1,0 +1,104 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/cellarity-content-openapi.yml + https://cellarity.com/wp-json/ route descriptor + site probes
+summary: >-
+  Cellarity operates no API lifecycle program. There is no versioning policy, no deprecation
+  policy, no Sunset/Deprecation header support, no SLA, no status page and no API changelog,
+  because Cellarity does not hold out an API to anyone — the surface catalogued here is the
+  WordPress CMS backing cellarity.com. The versioning that exists is WordPress core's own
+  namespace scheme, which Cellarity inherits rather than governs. No StatusPage and no Deprecation
+  pointer is emitted; emitting either would credit Cellarity with an operational commitment it has
+  not made.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  governed_by: WordPress core (upstream), not Cellarity
+  docs: null
+  detail: >-
+    The version is a path namespace — /wp-json/wp/v2. WordPress has held wp/v2 stable since 2016
+    and adds capability through new namespaces rather than by breaking v2. Site-specific custom
+    post types (news_item, pipeline-item, team-member, event-speaker, case-study, team-video,
+    mindset-video) are registered INTO wp/v2 by Cellarity's theme and plugins, which means the
+    shape of this API can change whenever the site is rebuilt, with no notice and no version bump.
+  namespaces_present:
+  - wp/v2
+  - oembed/1.0
+  - yoast/v1
+  - divi/v1
+  - da/v1
+  - wp-site-health/v1
+  - wp-block-editor/v1
+  - wp-abilities/v1
+  - real-custom-post-order/v1
+  - real-utils/v1
+  - duplicate-post/v1
+  - wpe/cache-plugin/v1
+  - wpe_sign_on_plugin/v1
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    No Sunset or Deprecation response header was observed on any probe and no deprecation policy
+    page exists on cellarity.com.
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: null
+  published: false
+  probed:
+  - url: https://status.cellarity.com/
+    status: 000
+    note: 'Connection failed — `dig +short status.cellarity.com` returns no record.'
+  - url: https://cellarity.com/status/
+    status: 404
+  detail: >-
+    No status page exists on any conventional host. Cellarity is hosted on WP Engine
+    (cellaritypro.wpenginepowered.com is the origin); WP Engine runs its own status page, but that
+    is the vendor's, not Cellarity's, and is not linked from cellarity.com.
+changelog:
+  api_changelog: null
+  published: false
+  detail: >-
+    Cellarity publishes no API changelog. The dated stream it does publish is a corporate
+    newsroom — 48 `news_item` records classified by the `article-type` taxonomy (news 29, press 14,
+    ext 11, publication 2, presentation 2, media 1) — which is company news, not release notes for
+    an interface. No `ChangeLog` pointer is emitted; treating a press-release feed as an API
+    changelog would be a false positive.
+  newsroom:
+    url: https://cellarity.com/news-events/
+    api: https://cellarity.com/wp-json/wp/v2/news_item
+    count: 48
+    most_recent: '2026-01-08'
+    rss: false
+    rss_note: https://cellarity.com/feed/ 301-redirects to the homepage — the WordPress feed is disabled.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in openapi/cellarity-content-openapi.yml carries `deprecated: true`; the route
+  descriptor marks none.
+stability_signals:
+  content_freshness:
+    news_item_most_recent: '2026-01-08'
+    team_member_most_recent: '2026-07-13'
+    media_most_recent: '2026-07-13'
+  empty_collections:
+  - resource: posts
+    count: 0
+    note: The core WordPress blog is registered but unused — Cellarity runs no blog.
+  - resource: project
+    count: 0
+    note: Theme-supplied post type, never populated.
+  - resource: tags
+    count: 0
+  detail: >-
+    The site is actively maintained (team and media updated July 2026), so the content API is live
+    rather than abandoned — but three registered collections have never held a record, which is a
+    reminder that route presence in the descriptor does not imply a populated resource.
+cross_links:
+  conventions: conventions/cellarity-conventions.yml
+  errors: errors/cellarity-problem-types.yml
+  openapi: openapi/cellarity-content-openapi.yml

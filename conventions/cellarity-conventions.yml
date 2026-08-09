@@ -1,0 +1,144 @@
+generated: '2026-08-09'
+method: derived
+source: openapi/cellarity-content-openapi.yml + live probes of https://cellarity.com/wp-json/wp/v2
+summary: >-
+  Cross-cutting request/response semantics of the cellarity.com WordPress REST content API. These
+  are WordPress core conventions, not conventions Cellarity authored or documents — Cellarity
+  publishes no developer documentation of any kind. Every value below was confirmed against the
+  live endpoint or read verbatim from the route-discovery descriptor.
+authentication:
+  style: none-for-reads
+  read: Anonymous. Every wp/v2 collection listed in the OpenAPI returns 200 without credentials.
+  write: WordPress Application Passwords over HTTP Basic (RFC 7617).
+  authorization_endpoint: https://cellarity.com/wp-admin/authorize-application.php
+  gated:
+  - path: /wp/v2/settings
+    status: 401
+    code: rest_forbidden
+  - path: /wp-abilities/v1/abilities
+    status: 401
+    code: rest_forbidden
+  detail: authentication/cellarity-authentication.yml
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency contract exists. There is no Idempotency-Key header, no request-id-keyed replay
+    window, and no such parameter anywhere in the 287-route descriptor. Writes are plain
+    POST/PUT/PATCH/DELETE and retrying a POST creates a duplicate object. No `Idempotency` pointer
+    is emitted for this provider.
+pagination:
+  style: page-number
+  params:
+  - name: page
+    default: 1
+    minimum: 1
+    description: Current page of the collection.
+  - name: per_page
+    default: 10
+    minimum: 1
+    maximum: 100
+    description: Maximum number of items to be returned in result set.
+  - name: offset
+    description: Offset the result set by a specific number of items (collection routes).
+  response_headers:
+  - name: X-WP-Total
+    description: Total number of items in the collection.
+  - name: X-WP-TotalPages
+    description: Total number of pages in the collection.
+  link_header: >-
+    WordPress emits RFC 5988 `Link: <...>; rel="next"` / `rel="prev"` on paginated collections.
+  out_of_range: >-
+    per_page above 100 returns 400 rest_invalid_param with
+    data.params.per_page = "per_page must be between 1 (inclusive) and 100 (inclusive)".
+  observed_totals:
+    news_item: 48
+    media: 207
+    team-member: 19
+    event-speaker: 11
+    pages: 11
+    pipeline-item: 6
+    team-video: 4
+    mindset-video: 3
+    case-study: 1
+    posts: 0
+    project: 0
+field_selection:
+  sparse_fields:
+    param: _fields
+    description: Comma-separated allow-list limiting which top-level fields are returned.
+    example: /wp/v2/news_item?_fields=id,date,slug,link,title
+  expansion:
+    param: _embed
+    description: >-
+      Inlines linked resources (author, featured media, terms) into an `_embedded` object using the
+      HAL-style `_links` graph each object carries.
+  envelope:
+    param: _envelope
+    description: Wraps body, status and headers in a single JSON object for clients that cannot read headers.
+filtering_and_sorting:
+  search: '`search` on every collection; a dedicated cross-type endpoint at /wp/v2/search.'
+  order: 'asc | desc'
+  orderby: 'Varies per resource — commonly date, id, include, title, slug, relevance.'
+  include_exclude: 'include[] / exclude[] take explicit ID arrays.'
+  date_windows: after / before (ISO8601), and modified_after / modified_before.
+  taxonomy_filters:
+  - '`article-type` on news_item (news, press, publication, presentation, media, ext)'
+  - '`pipeline-category` on pipeline-item'
+  - '`team-category` on team-member (board, founders, management)'
+  - '`case-study-category` on case-study'
+metadata:
+  hypermedia: >-
+    Every object carries a HAL-flavored `_links` object (self, collection, about, wp:attachment,
+    wp:term, curies) — the API is self-describing enough to crawl without out-of-band docs, which
+    matters here because there are no docs.
+  rendered_fields: >-
+    Content fields are objects with a `rendered` key (title.rendered, content.rendered,
+    excerpt.rendered), not bare strings. Naive clients that treat title as a string will break.
+  discovery: >-
+    GET https://cellarity.com/wp-json/ returns the full 287-route descriptor with per-route args,
+    types, enums and defaults. This is the machine-readable contract of record.
+request_tracing:
+  request_id_header: null
+  detail: No correlation/request-id header is issued. WP Engine edge headers only.
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  namespaces:
+  - wp/v2
+  - oembed/1.0
+  - yoast/v1
+  - divi/v1
+  - da/v1
+  - wp-site-health/v1
+  - wp-block-editor/v1
+  - wp-abilities/v1
+  - real-custom-post-order/v1
+  - real-utils/v1
+  - duplicate-post/v1
+  - wpe/cache-plugin/v1
+  - wpe_sign_on_plugin/v1
+  detail: lifecycle/cellarity-lifecycle.yml
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  content_type: application/json
+  shape: '{code: string, message: string, data: {status: integer, params?: object, details?: object}}'
+  detail: errors/cellarity-problem-types.yml
+rate_limiting:
+  documented: false
+  headers_observed: []
+  detail: >-
+    No rate-limit headers (X-RateLimit-*, RateLimit-*, Retry-After) were returned on any probe and
+    no rate-limit policy is published. WP Engine applies unpublished edge protections; treat the
+    effective limit as unknown and back off on 429/503.
+caching:
+  headers_observed:
+  - Cache-Control
+  - X-Cache (WP Engine edge)
+  conditional_requests: 'Standard ETag / If-None-Match support from WordPress core.'
+cross_links:
+  errors: errors/cellarity-problem-types.yml
+  lifecycle: lifecycle/cellarity-lifecycle.yml
+  authentication: authentication/cellarity-authentication.yml
+  data_model: data-model/cellarity-data-model.yml
+  openapi: openapi/cellarity-content-openapi.yml

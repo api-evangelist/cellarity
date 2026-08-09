@@ -1,0 +1,76 @@
+generated: '2026-08-09'
+method: searched
+source: https://github.com/Cellarity + https://pypi.org/ + npm registry search
+summary: >-
+  Cellarity ships no API client libraries or SDKs — it has no product API to write one against.
+  What it does publish is first-party open-source SCIENTIFIC software: three research packages in
+  the github.com/Cellarity organization implementing methods from its own publications. One of
+  them, DILImap, is distributed on PyPI and is authored from a cellarity.com address, which is
+  what makes it verifiably first-party. These are research libraries, not clients for the
+  cellarity.com content API, so no `SDKs` pointer is emitted for them — doing so would credit
+  Cellarity with an SDK surface it does not have.
+registries_probed:
+- registry: pypi
+  query: cellarity
+  result: 404 (no package named `cellarity`)
+- registry: pypi
+  query: drugreflector
+  result: 404 (README says `pip install drugreflector` but nothing is published under that name)
+- registry: pypi
+  query: molrl
+  result: 404
+- registry: npm
+  query: cellarity
+  result: no matching packages
+- registry: maven-central
+  result: not probed — no JVM surface indicated anywhere in the org or docs
+packages:
+- language: python
+  registry: pypi
+  name: DILImap
+  version: 1.0.5
+  url: https://pypi.org/project/DILImap/
+  install: pip install DILImap
+  official: true
+  official_evidence: 'PyPI author_email is vbergen@cellarity.com; source repo is
+    github.com/Cellarity/DILImap.'
+  source: https://github.com/Cellarity/DILImap
+  requires_python: '>=3.8'
+  description: >-
+    Predicting drug-induced liver injury (DILI) from transcriptomics. Research code, not an API
+    client.
+  kind: research-library
+- language: python
+  registry: github
+  name: drugreflector
+  url: https://github.com/Cellarity/drugreflector
+  install: git clone https://github.com/Cellarity/drugreflector
+  official: true
+  official_evidence: Published in the Cellarity GitHub organization.
+  published_to_registry: false
+  published_note: >-
+    The README documents `pip install drugreflector`, but https://pypi.org/pypi/drugreflector/json
+    returns 404 — the package is not on PyPI. GitHub checkout is the only install path.
+  description: >-
+    Compound ranking predictions from gene expression signatures using ensemble neural network
+    models; includes signature refinement and v-score computation. Research code, not an API client.
+  kind: research-library
+- language: python
+  registry: github
+  name: MolRL
+  url: https://github.com/Cellarity/MolRL
+  install: git clone https://github.com/Cellarity/MolRL
+  official: true
+  official_evidence: Published in the Cellarity GitHub organization.
+  published_to_registry: false
+  description: >-
+    Targeted molecular generation with latent reinforcement learning. Jupyter/Python research code,
+    not an API client.
+  kind: research-library
+github_organization:
+  url: https://github.com/Cellarity
+  created: '2018-07-03'
+  public_repos: 4
+  note: >-
+    The fourth public repo, Cellarity/DILImap_reproducibility, is a notebook companion to DILImap
+    rather than an installable package.

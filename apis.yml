@@ -1,18 +1,87 @@
 aid: cellarity
 name: Cellarity
-description: 'Cellarity is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Cellarity is a Somerville, Massachusetts based clinical-stage biotechnology company
+  founded in 2017 inside Flagship Labs by Flagship Pioneering, which discovers medicines against
+  the cell as a whole rather than a single molecular target. Its multi-omics, AI-powered platform
+  is trained on tens of millions of single-cell transcriptomes to characterize disease as a shift
+  in cell state and to design small molecules that course-correct that state back toward health.
+  The company has raised roughly $294M across Series A, B and C rounds from Flagship Pioneering,
+  BlackRock, The Baupost Group and Pictet Group, runs an active MASH collaboration with Novo
+  Nordisk, and is advancing CLY-124 — a first-in-class globin-switching oral medicine for sickle
+  cell disease — through a Phase 1 clinical study, alongside myelofibrosis and exploratory
+  hematology programs. Cellarity publishes no product or developer API and runs no developer
+  program; its only anonymously readable machine-readable surface is the WordPress REST API
+  (wp/v2) that serves cellarity.com — news items, the drug-development pipeline, leadership and
+  board profiles, event speakers, case studies, platform videos, media and site search — as JSON.
+  Its scientific software is published as open-source research code in the github.com/Cellarity
+  organization (DrugReflector, DILImap, MolRL), and its technical documentation site at
+  docs.cellarity.com is a private Read the Docs Business instance behind SSO.'
 url: https://raw.githubusercontent.com/api-evangelist/cellarity/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
+image: https://cellarity.com/wp-content/uploads/Logo-Icon-blue.svg
 specificationVersion: '0.20'
 created: '2026-08-09'
 modified: '2026-08-09'
 tags:
 - Company
-apis: []
+- Biotechnology
+- Drug Discovery
+- Life Sciences
+- Artificial Intelligence
+- Machine Learning
+- Single Cell
+- Transcriptomics
+- Pharmaceuticals
+- Clinical Trials
+- Hematology
+- Research
+- Content
+apis:
+- aid: cellarity:content
+  name: Cellarity Content API (WordPress REST wp/v2)
+  description: 'The anonymously readable WordPress REST API that cellarity.com serves at
+    /wp-json/wp/v2 — news items (the `news_item` custom post type, 48 published), the
+    drug-development pipeline (`pipeline-item`, 6 published, classified by `pipeline-category`),
+    leadership / board / founder profiles (`team-member`, 19 published, classified by
+    `team-category`), event speakers (`event-speaker`, 11 published), case studies
+    (`case-study`), platform and culture videos (`team-video`, `mindset-video`), marketing pages,
+    the 207-object media library, taxonomies including the `article-type` newsroom classification
+    (news / press / publication / presentation / media / ext), and a site-wide search endpoint —
+    all as JSON with page/per_page pagination and X-WP-Total / X-WP-TotalPages headers. This is
+    the CMS content API, not a Cellarity product API; Cellarity publishes no OpenAPI for it, so
+    the definition in this repo was derived mechanically from the live route-discovery document
+    at https://cellarity.com/wp-json/. Write operations exist on every route but require
+    WordPress Application Passwords over HTTP Basic; anonymous writes and the settings and
+    wp-abilities registries return 401 rest_forbidden.'
+  humanURL: https://cellarity.com/news-events/
+  baseURL: https://cellarity.com/wp-json/wp/v2
+  tags:
+  - Content
+  - News
+  - Pipeline
+  - People
+  - Events
+  - Search
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/cellarity-content-openapi.yml
+  - type: Overlay
+    url: overlays/cellarity-content-overlay.yaml
+  - type: DataModel
+    url: data-model/cellarity-data-model.yml
+  - type: ErrorCatalog
+    url: errors/cellarity-problem-types.yml
+  - type: Examples
+    url: examples/cellarity-examples.yml
+x-enrichment:
+  date: '2026-08-09'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +89,48 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://cellarity.com/
+- type: About
+  url: https://cellarity.com/about/
+- type: Technology
+  url: https://cellarity.com/platform/
+- type: Pipeline
+  url: https://cellarity.com/pipeline/
+- type: News
+  url: https://cellarity.com/news-events/
+- type: Support
+  url: https://cellarity.com/contact/
+- type: Careers
+  url: https://cellarity.com/life-at-cellarity/
+- type: TermsOfService
+  url: https://cellarity.com/terms-conditions/
+- type: PrivacyPolicy
+  url: https://cellarity.com/privacy-policy/
+- type: GitHubOrganization
+  url: https://github.com/Cellarity
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cellarity/
+- type: Twitter
+  url: https://twitter.com/cellaritybio
+- type: SecondaryMarket
   url: https://forgeglobal.com/cellarity_stock/
+- type: Packages
+  url: packages/cellarity-packages.yml
+- type: LLMsTxt
+  url: llms/cellarity-llms.txt
+- type: WellKnown
+  url: well-known/cellarity-well-known.yml
+- type: Authentication
+  url: authentication/cellarity-authentication.yml
+- type: Conventions
+  url: conventions/cellarity-conventions.yml
+- type: Conformance
+  url: conformance/cellarity-conformance.yml
+- type: Lifecycle
+  url: lifecycle/cellarity-lifecycle.yml
+- type: DomainSecurity
+  url: security/cellarity-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/cellarity-agentic-access.yml
+- type: AgentSkill
+  url: skills/_index.yml

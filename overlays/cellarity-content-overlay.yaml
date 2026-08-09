@@ -1,0 +1,87 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Cellarity Content API
+  version: 1.0.0
+extends: openapi/cellarity-content-openapi.yml
+x-generated: '2026-08-09'
+x-method: generated
+x-source: >-
+  API Evangelist enrichment pipeline. Captures the annotations we add on top of the mechanically
+  derived spec, so the derived document stays a faithful projection of
+  https://cellarity.com/wp-json/ and our editorial sits separately.
+actions:
+- target: $.info
+  description: Provenance and standing of this definition.
+  update:
+    x-apievangelist-provider: cellarity
+    x-apievangelist-artifact-class: cms-content-api
+    x-apievangelist-provider-published: false
+    x-apievangelist-note: >-
+      Cellarity publishes no OpenAPI and no developer program. This document was derived by API
+      Evangelist from the live WordPress route-discovery descriptor. Treat it as a map of a public
+      CMS surface, not as an interface contract Cellarity has committed to.
+- target: $.info
+  description: Point consumers at the captured conventions and error semantics.
+  update:
+    x-apievangelist-conventions: conventions/cellarity-conventions.yml
+    x-apievangelist-errors: errors/cellarity-problem-types.yml
+    x-apievangelist-data-model: data-model/cellarity-data-model.yml
+    x-apievangelist-examples: examples/cellarity-examples.yml
+    x-apievangelist-lifecycle: lifecycle/cellarity-lifecycle.yml
+- target: $.info
+  description: Stability warning specific to site-registered custom post types.
+  update:
+    x-apievangelist-stability: volatile
+    x-apievangelist-stability-note: >-
+      The wp/v2 namespace is stable upstream, but news_item, pipeline-item, team-member,
+      event-speaker, case-study, team-video and mindset-video are registered by Cellarity's theme
+      and plugins. They can be renamed or removed by a site rebuild with no version bump, no
+      deprecation notice and no changelog.
+- target: $.servers[0]
+  description: Record that the origin is WP Engine.
+  update:
+    x-apievangelist-origin: cellaritypro.wpenginepowered.com
+    x-apievangelist-hosting: WP Engine
+- target: $.paths['/wp/v2/news_item'].get
+  description: Flag the most useful filter on the API.
+  update:
+    x-apievangelist-highlight: true
+    x-apievangelist-note: >-
+      Filter with the article-type taxonomy to separate original press releases (press, 14) from
+      external coverage (ext, 11) and peer-reviewed publications (publication, 2). 48 records total.
+- target: $.paths['/wp/v2/pipeline-item'].get
+  description: Explain what the pipeline taxonomy actually encodes.
+  update:
+    x-apievangelist-highlight: true
+    x-apievangelist-note: >-
+      Six records covering CLY-124 (sickle cell), Myelofibrosis, Exploratory Hematology, MASH and
+      In Development. pipeline-category encodes presentation role (pipeline-chart / the-details /
+      show-popup), NOT therapeutic area — do not read it as a clinical classification.
+- target: $.paths['/wp/v2/team-member'].get
+  description: Note the team taxonomy split.
+  update:
+    x-apievangelist-highlight: true
+    x-apievangelist-note: >-
+      19 profiles split across management (10), board (7) and founders (4); counts overlap because
+      individuals hold more than one term.
+- target: $.paths['/wp/v2/search'].get
+  description: Note the thin search shape.
+  update:
+    x-apievangelist-note: >-
+      The only cross-entity operation. Returns {id,title,url,type,subtype} plus _links.self —
+      follow the self link to read the full record.
+- target: $.paths['/wp/v2/settings'].get
+  description: Record the observed gate.
+  update:
+    x-apievangelist-observed-status: 401
+    x-apievangelist-note: Returns 401 rest_forbidden anonymously; requires an Application Password.
+- target: $.paths['/wp/v2/posts'].get
+  description: Record that this collection is empty.
+  update:
+    x-apievangelist-observed-count: 0
+    x-apievangelist-note: Core WordPress blog is registered but unused — Cellarity runs no blog.
+- target: $.paths['/wp/v2/project'].get
+  description: Record that this collection is empty.
+  update:
+    x-apievangelist-observed-count: 0
+    x-apievangelist-note: Theme-supplied post type, never populated.
