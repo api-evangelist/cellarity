@@ -31,6 +31,20 @@ tags:
 - Drug Discovery
 - Life Sciences
 - Artificial Intelligence
+- Machine-Learning
+- Single Cell
+- Transcriptomics
+- Pharmaceuticals
+- Clinical Trials
+- Hematology
+- Research
+- Content
+tags_raw:
+- Company
+- Biotechnology
+- Drug Discovery
+- Life Sciences
+- Artificial Intelligence
 - Machine Learning
 - Single Cell
 - Transcriptomics
@@ -94,6 +108,8 @@ apis:
   humanURL: https://cellarity.com/news-events/
   baseURL: https://cellarity.com/wp-json/wp/v2
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -206,6 +222,8 @@ apis:
   humanURL: https://cellarity.com/news-events/
   baseURL: https://cellarity.com/wp-json/wp/v2
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -270,6 +288,8 @@ apis:
   humanURL: https://cellarity.com/news-events/
   baseURL: https://cellarity.com/wp-json/wp/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
