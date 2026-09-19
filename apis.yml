@@ -215,6 +215,8 @@ apis:
   humanURL: https://cellarity.com/news-events/
   baseURL: https://cellarity.com/wp-json/wp/v2
   tags:
+  - Pipelines
+  tags_raw:
   - Pipeline
   properties:
   - type: OpenAPI
