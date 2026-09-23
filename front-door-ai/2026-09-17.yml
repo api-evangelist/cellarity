@@ -1,0 +1,25 @@
+# Front Door AI Index — cellarity — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: cellarity
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: cellarity.com
+  final_host: cellarity.com
+  ownership: own
+  owner: cellarity
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 1
+  host_score: 1
+  density: 5.32
+  words: 188
+  tiers:
+    agentic: 0
+    core: 1
+    model: 0
+  ambiguous: 0
+  top_terms:
+    AI: 1

@@ -1,22 +1,7 @@
 {
   "provider": "cellarity",
   "sources": [
-    "cellarity-case-studies-api-openapi.yml",
-    "cellarity-comments-api-openapi.yml",
-    "cellarity-discovery-api-openapi.yml",
-    "cellarity-events-api-openapi.yml",
-    "cellarity-media-api-openapi.yml",
-    "cellarity-news-api-openapi.yml",
-    "cellarity-pages-api-openapi.yml",
-    "cellarity-people-api-openapi.yml",
-    "cellarity-pipeline-api-openapi.yml",
-    "cellarity-posts-api-openapi.yml",
-    "cellarity-projects-api-openapi.yml",
-    "cellarity-search-api-openapi.yml",
-    "cellarity-settings-api-openapi.yml",
-    "cellarity-taxonomy-api-openapi.yml",
-    "cellarity-users-api-openapi.yml",
-    "cellarity-video-api-openapi.yml"
+    "_ae-authored/cellarity-content-openapi.yml"
   ],
   "outputs": [
     "cellarity-case-studies-api-openapi.yml",
@@ -40,7 +25,26 @@
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cellarity-content-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "cellarity-case-studies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-news-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-people-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-pipeline-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-taxonomy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cellarity-video-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
