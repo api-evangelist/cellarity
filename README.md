@@ -64,5 +64,121 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cellarity is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/cellarity_stock/
+Cellarity is a Somerville, Massachusetts based clinical-stage biotechnology company founded in 2017 inside Flagship Labs by Flagship Pioneering, which discovers medicines against the cell as a whole rather than a single molecular target. Its multi-omics, AI-powered platform is trained on tens of millions of single-cell transcriptomes to characterize disease as a shift in cell state and to design small molecules that course-correct that state back toward health. The company has raised roughly $294M across Series A, B and C rounds from Flagship Pioneering, BlackRock, The Baupost Group and Pictet Group, runs an active MASH collaboration with Novo Nordisk, and is advancing CLY-124 — a first-in-class globin-switching oral medicine for sickle cell disease — through a Phase 1 clinical study, alongside myelofibrosis and exploratory hematology programs. Cellarity publishes no product or developer API and runs no developer program; its only anonymously readable machine-readable surface is the WordPress REST API (wp/v2) that serves cellarity.com — news items, the drug-development pipeline, leadership and board profiles, event speakers, case studies, platform videos, media and site search — as JSON. Its scientific software is published as open-source research code in the github.com/Cellarity organization (DrugReflector, DILImap, MolRL), and its technical documentation site at docs.cellarity.com is a private Read the Docs Business instance behind SSO.
+
+**Areas:** Company · Biotechnology · Drug Discovery · Life Sciences · Artificial Intelligence · Machine Learning · Single Cell · Transcriptomics · Pharmaceuticals · Clinical Trials · Hematology · Research
+
+## Cellarity on APIs.io
+
+Everything profiled for Cellarity is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cellarity/](https://apis.io/providers/cellarity/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Cellarity Website (WordPress REST)](https://apis.io/apis/cellarity/cellarity-com-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the Cellarity website at cellarity.com: the route index of the site's content management system, catalogued as…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Cellarity Agentic Access](https://apis.io/agentic-access/cellarity/cellarity-agentic-access/)
+
+#### Collections (16)
+
+Postman and Open Collection request collections.
+
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-case-studies-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-comments-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-discovery-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-events-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-media-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-news-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-pages-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-people-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-pipeline-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-posts-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-projects-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-search-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-settings-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-taxonomy-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-users-api/)
+- [Moved to /providers/cellarity/](https://apis.io/collections/cellarity/open-cellarity-video-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Cellarity Content Overlay](https://apis.io/overlays/cellarity/cellarity-content-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cellarity Authentication](https://apis.io/security/cellarity/cellarity-authentication/)
+- [Cellarity Domain Security](https://apis.io/security/cellarity/cellarity-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://cellarity.com/)
+- [Support](https://cellarity.com/contact/)
+- [Terms of service](https://cellarity.com/terms-conditions/)
+- [Privacy policy](https://cellarity.com/privacy-policy/)
+- [GitHub](https://github.com/Cellarity)
+
+## API Evangelist rating
+
+**Kin Score 17.9** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 58.0 |
+| Contract quality | 1.7 |
+| Contract governance | 4.5 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 28.0 |
+| Access clarity | 21.1 |
+
+**Agent readiness 5.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 18.4** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cellarity/](https://apis.io/providers/cellarity/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cellarity: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cellarity/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
